@@ -1,0 +1,50 @@
+/* 1920x1080 TV canvas. No web fonts, no images: nothing to load = fast. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { background: #0b1020; color: #f2f5ff; font-family: "SamsungOne", "Helvetica Neue", Arial, sans-serif; }
+
+/* Static background: blurred colour orbs, drawn once, never animated (old TV GPUs hate that). */
+.bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; -webkit-filter: blur(120px); filter: blur(120px); opacity: .75; }
+.o1 { width: 900px; height: 900px; left: -200px; top: -250px; background: #3a6bff; }
+.o2 { width: 800px; height: 800px; right: -150px; top: 200px; background: #b03aff; }
+.o3 { width: 700px; height: 700px; left: 600px; bottom: -400px; background: #00c2c7; }
+
+/* Liquid glass. Fallback = translucent gradient + specular edge; real backdrop blur where supported. */
+.glass {
+  background: -webkit-linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
+  background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
+  border: 1.5px solid rgba(255,255,255,.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 30px rgba(255,255,255,.05), 0 20px 50px rgba(0,0,0,.35);
+  border-radius: 36px;
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass { -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%); }
+}
+
+.bar { position: absolute; top: 60px; left: 96px; right: 96px; height: 120px; padding: 0 48px;
+  display: -webkit-box; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: justify; justify-content: space-between; }
+.clock { font-size: 64px; font-weight: 300; letter-spacing: 1px; }
+.date { font-size: 30px; opacity: .8; }
+
+main { position: absolute; top: 220px; left: 76px; right: 76px; bottom: 0; padding: 20px; overflow: hidden; }
+h2 { font-size: 34px; font-weight: 400; opacity: .85; margin: 0 0 28px 12px; }
+.grid { font-size: 0; }
+
+.tile { display: inline-block; vertical-align: top; width: 268px; height: 220px; margin: 0 24px 28px 0;
+  position: relative; font-size: 26px; text-align: center; padding-top: 34px;
+  -webkit-transition: -webkit-transform .15s ease-out, background .15s; transition: transform .15s ease-out, background .15s; }
+.tile:nth-child(6n) { margin-right: 0; }
+.tile .ic { width: 96px; height: 96px; margin: 0 auto 18px; border-radius: 26px; background-size: cover; background-position: center;
+  font-size: 46px; line-height: 96px; font-weight: 600; color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5); }
+.tile .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 16px; }
+.tile.focus { -webkit-transform: scale(1.09); transform: scale(1.09);
+  background: -webkit-linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.14));
+  background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.14));
+  border-color: rgba(255,255,255,.85);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.8), 0 0 0 4px rgba(255,255,255,.18), 0 30px 60px rgba(0,0,0,.45); }
+
+.toast { position: absolute; bottom: 70px; left: 50%; width: 760px; margin-left: -380px; padding: 26px; text-align: center;
+  font-size: 28px; opacity: 0; -webkit-transition: opacity .25s; transition: opacity .25s; }
+.toast.show { opacity: 1; }
