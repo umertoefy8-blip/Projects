@@ -14,6 +14,10 @@ A lightweight home screen for a Samsung UA50KU7000K (2016, Tizen 2.4). It has no
 4. Create a Samsung certificate in **Certificate Manager**.
 5. **File → Import → Tizen → Tizen Project**, pick this folder, then right-click the project → **Run As → Tizen Web Application**.
 
+## Customise
+- **Wallpaper:** put a `wallpaper.jpg` (1920×1080) in this folder and it replaces the built-in night-sky `wallpaper.svg`.
+- **Icons:** on the TV, real app icons come from the system. `icons.js` has generic fallback glyphs for when an app reports none.
+
 ## Remote
 Arrows: move · Enter: launch · Back: hide
 

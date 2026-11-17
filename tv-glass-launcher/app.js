@@ -41,8 +41,9 @@
   function render() {
     var grid = $('grid'), html = '';
     apps.forEach(function (a, i) {
-      var ic = a.icon
-        ? '<div class="ic" style="background-image:url(\'' + a.icon + '\')"></div>'
+      var src = a.icon || GLYPHS.match(a.name);
+      var ic = src
+        ? '<div class="ic" style="background-image:url(&quot;' + src + '&quot;)"></div>'
         : '<div class="ic" style="background:' + COLORS[i % COLORS.length] + '">' + a.name.charAt(0) + '</div>';
       html += '<div class="glass tile">' + ic + '<div class="nm">' + a.name.replace(/</g, '&lt;') + '</div></div>';
     });
